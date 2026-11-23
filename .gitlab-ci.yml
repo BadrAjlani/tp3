@@ -1,0 +1,32 @@
+
+image: python:3.14
+
+stages:
+  - test
+  - quality
+
+before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+
+run-test:
+  stage: test
+  script:
+    - pytest -v --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    paths:
+      - report.xml
+    expire_in: 1 week
+
+run-coverage:
+  stage: test
+  script:
+    - pytest --cov=main --cov-branch --cov-report=term-missing --cov-fail-under=91
+
+run-pylint:
+  stage: quality
+  script:
+    - pylint main.py --fail-under=8
