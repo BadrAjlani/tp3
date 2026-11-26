@@ -1,2 +1,8 @@
+
 fastapi
-uvicorn[standard]
+uvicorn
+pytest
+httpx
+coverage
+pytest-cov
+pylint
